@@ -1,0 +1,16 @@
+#!/bin/bash
+if [ -z ${CMK_SITE+x} ]
+then
+ echo We need your site: Specify CMK_SITE var on run!
+ exit 1
+fi
+omd create ${CMK_SITE} --no-init -u1000 -g1000 && {
+  omd config ${CMK_SITE} set APACHE_TCP_ADDR 0.0.0.0
+  omd config ${CMK_SITE} set DEFAULT_GUI check_mk
+  omd config ${CMK_SITE} set TMPFS off
+  omd config ${CMK_SITE} set LIVESTATUS_TCP on
+  omd config ${CMK_SITE} set LIVESTATUS_TCP_PORT 6557
+}
+omd update ${CMK_SITE}
+omd start ${CMK_SITE}
+tail -f /dev/null
