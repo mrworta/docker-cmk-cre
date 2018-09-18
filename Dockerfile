@@ -9,6 +9,7 @@ RUN /bin/bash -c 'apt-get update; apt-get install -y curl'
 RUN curl $CMK_PKG -o /tmp/cmk.deb
 
 RUN /bin/bash -c 'apt-get install -y /tmp/cmk.deb'
+VOLUME /opt/omd/sites
 WORKDIR /opt/omd
 
 COPY Entrypoint /opt/Entrypoint
